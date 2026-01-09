@@ -24,15 +24,15 @@ enum SortType {
 function sortArr(sortField: SortType, array: string[]): string[] {
   const arr = [...array];
 
-  if (sortField === 'alphabetically') {
+  if (sortField === SortType.ALPHABETICALLY) {
     return arr.sort();
   }
 
-  if (sortField === 'length') {
+  if (sortField === SortType.LENGTH) {
     return arr.sort((elem1, elem2) => elem1.length - elem2.length);
   }
 
-  if (sortField === '') {
+  if (sortField === SortType.NONE) {
     return arr;
   }
 
@@ -53,7 +53,7 @@ export const App: React.FC = () => {
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${sortField === 'alphabetically' ? '' : 'is-light'}`}
+          className={`button is-info ${sortField === SortType.ALPHABETICALLY ? '' : 'is-light'}`}
           onClick={() => setSortField(SortType.ALPHABETICALLY)}
         >
           Sort alphabetically
@@ -61,7 +61,7 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-success ${sortField === 'length' ? '' : 'is-light'}`}
+          className={`button is-success ${sortField === SortType.LENGTH ? '' : 'is-light'}`}
           onClick={() => setSortField(SortType.LENGTH)}
         >
           Sort by length
@@ -69,14 +69,14 @@ export const App: React.FC = () => {
 
         <button
           type="button"
-          className={`button is-warning ${isReversed ? '' : 'is-light'}`}
+          className={`button is-warning ${isReversed ? SortType.NONE : 'is-light'}`}
           onClick={() =>
-            isReversed === false ? setIsReversed(true) : setIsReversed(false)
+            isReversed === false ? setIsReversed(currentValue => !currentValue) : setIsReversed(currentValue => !currentValue)
           }
         >
           Reverse
         </button>
-        {sortField !== '' || isReversed === true ? (
+        {sortField !== SortType.NONE || isReversed === true ? (
           <button
             type="button"
             className="button is-danger is-light"
